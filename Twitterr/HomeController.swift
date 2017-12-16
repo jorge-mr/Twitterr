@@ -8,37 +8,6 @@
 
 import UIKit
 
-class WordCell : UICollectionViewCell {
-    //Clase customizable para las celdas del collection view
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    //metodo obligatorio
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    let wordLabel : UILabel = {
-        let label = UILabel()
-        label.text = "TEXT TEXT TEXT"
-        //permite aplicar constraints
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    func setupViews(){
-        backgroundColor = .yellow
-        addSubview(wordLabel)
-        //establece los constraints para que abarque toda la celda
-        wordLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        wordLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        wordLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        wordLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-    }
-}
-
 class HomeController : UICollectionViewController {
     
     let cellID = "cellID"
@@ -48,12 +17,12 @@ class HomeController : UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.backgroundColor = .white
-        //Registra una WordCell con su identificador
-        collectionView?.register(WordCell.self, forCellWithReuseIdentifier: cellID)
+        //Registra una UserCell con su identificador
+        collectionView?.register(UserCell.self, forCellWithReuseIdentifier: cellID)
         //Registra una collectionViewCell del tipo Section Header con su identificador
-        collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
+        collectionView?.register(UserHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
         //Registra una collectionViewCell del tipo Section Footer con su identificador
-        collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerID)
+        collectionView?.register(UserFooter.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerID)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -69,31 +38,27 @@ class HomeController : UICollectionViewController {
         //Revisa si es header section, si no es footer section
         if kind == UICollectionElementKindSectionHeader {
             let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath)
-            headerCell.backgroundColor = .blue
             return headerCell
         }else{
             let footerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerID, for: indexPath)
-            footerCell.backgroundColor = .green
             return footerCell
         }
     }
-    
-    
 }
 
 extension HomeController : UICollectionViewDelegateFlowLayout {
     //Tamaño para celdas normales
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 50)
+        return CGSize(width: view.frame.width, height: 150)
     }
     
     //Tamaño para la celda header (primera)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 70)
+        return CGSize(width: view.frame.width, height: 50)
     }
     
     //Tamaño para la celda footer (ultima)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 100)
+        return CGSize(width: view.frame.width, height: 50)
     }
 }
